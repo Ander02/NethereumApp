@@ -6,6 +6,8 @@ using NethereumApp.Infraestructure;
 using Microsoft.EntityFrameworkCore;
 using MediatR;
 using FluentValidation.AspNetCore;
+using NethereumApp.Domain;
+using NethereumApp.Services;
 
 namespace NethereumApp
 {
@@ -40,6 +42,9 @@ namespace NethereumApp
 
             services.AddCors();
             services.AddMediatR(typeof(Startup));
+
+            services.Configure<EthereumSettings>(Configuration);
+            services.AddScoped<IEthereumService, EthereumService>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
