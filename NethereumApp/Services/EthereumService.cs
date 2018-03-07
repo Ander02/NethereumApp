@@ -5,9 +5,11 @@ using NethereumApp.Domain;
 using NethereumApp.Infraestructure;
 using NethereumApp.Util;
 using System;
+using Nethereum.Hex.HexTypes;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Nethereum.RPC.Eth.DTOs;
 
 namespace NethereumApp.Services
 {
@@ -16,6 +18,11 @@ namespace NethereumApp.Services
         private Web3 web3;
         private string accountAdress;
         private string password;
+
+        public Web3 Web3
+        {
+            get => this.web3;
+        }
 
         public string AccountAddress
         {
@@ -37,19 +44,25 @@ namespace NethereumApp.Services
             return Web3.Convert.FromWei(balance.Value, 18);
         }
 
-        public Task<bool> ReleaseContract(string name, string abi, string byteCode, int gas)
+        public async Task<bool> UnlockAccount(int seconds)
         {
-            throw new NotImplementedException();
+            return await this.web3.Personal.UnlockAccount.SendRequestAsync(this.accountAdress, this.password, seconds);
         }
 
-        public Task<string> TryGetContractAddress(string name)
+        public async Task<string> DeployContract(string abi, string byteCode, int gas)
         {
-            throw new NotImplementedException();
+            return await this.web3.Eth.DeployContract.SendRequestAsync(abi, byteCode, this.accountAdress, new HexBigInteger(gas), 2);
         }
 
-        public Task<Contract> GetContract(string name)
+        public async Task<TransactionReceipt> GetTransactionReceipt(string transactionHash)
         {
-            throw new NotImplementedException();
+            return await this.web3.Eth.Transactions.GetTransactionReceipt.SendRequestAsync(transactionHash);
         }
+
+        public Contract GetContract(string abi)
+        {
+            return this.web3.Eth.GetContract(abi, this.accountAdress);
+        }
+
     }
 }
