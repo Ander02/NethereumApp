@@ -10,6 +10,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Nethereum.RPC.Eth.DTOs;
+using Nethereum.Web3.Accounts;
 
 namespace NethereumApp.Services
 {
@@ -18,11 +19,6 @@ namespace NethereumApp.Services
         private Web3 web3;
         private string accountAdress;
         private string password;
-
-        public Web3 Web3
-        {
-            get => this.web3;
-        }
 
         public string AccountAddress
         {
@@ -33,7 +29,7 @@ namespace NethereumApp.Services
 
         public EthereumService(IOptions<EthereumSettings> settings)
         {
-            this.web3 = new Web3(Constants.GETH_URL);
+            this.web3 = new Web3(settings.Value.GethUrl);
             this.AccountAddress = settings.Value.EthereumAccount;
             this.password = settings.Value.EthereumPassword;
         }
@@ -41,12 +37,14 @@ namespace NethereumApp.Services
         public async Task<decimal> GetBalance(string address)
         {
             var balance = await this.web3.Eth.GetBalance.SendRequestAsync(address);
-            return Web3.Convert.FromWei(balance.Value, 18);
+            var r = Web3.Convert.FromWei(balance.Value, 18);
+            return r;
         }
 
         public async Task<bool> UnlockAccount(int seconds)
         {
-            return await this.web3.Personal.UnlockAccount.SendRequestAsync(this.accountAdress, this.password, seconds);
+            var a = await this.web3.Personal.UnlockAccount.SendRequestAsync(this.accountAdress, this.password, 10 * seconds);
+            return a;
         }
 
         public async Task<string> DeployContract(string abi, string byteCode, int gas)
@@ -63,6 +61,5 @@ namespace NethereumApp.Services
         {
             return this.web3.Eth.GetContract(abi, this.accountAdress);
         }
-
     }
 }

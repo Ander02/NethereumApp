@@ -1,10 +1,11 @@
-﻿using Microsoft.EntityFrameworkCore.Migrations;
+﻿using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using System;
 using System.Collections.Generic;
 
 namespace NethereumApp.Migrations
 {
-    public partial class initialMigration : Migration
+    public partial class godMigration : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
@@ -12,7 +13,8 @@ namespace NethereumApp.Migrations
                 name: "EthereumContractInfo",
                 columns: table => new
                 {
-                    Id = table.Column<Guid>(nullable: false),
+                    Id = table.Column<int>(nullable: false)
+                        .Annotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn),
                     Abi = table.Column<string>(nullable: true),
                     ByteCode = table.Column<string>(nullable: true),
                     ContractAddress = table.Column<string>(nullable: true),

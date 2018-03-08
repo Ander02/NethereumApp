@@ -16,7 +16,8 @@ namespace NethereumApp.Services
         Task<bool> UnlockAccount(int seconds);
         Task<string> DeployContract(string abi, string byteCode, int gas);
         Task<TransactionReceipt> GetTransactionReceipt(string transactionHash);
-        Task<Contract> GetContract(string abi);
+        Contract GetContract(string abi);
+
 
     }
 }

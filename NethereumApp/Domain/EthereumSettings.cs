@@ -7,6 +7,7 @@ namespace NethereumApp.Domain
 {
     public class EthereumSettings
     {
+        public string GethUrl { get; set; }
         public string EthereumAccount { get; set; }
         public string EthereumPassword { get; set; }
     }

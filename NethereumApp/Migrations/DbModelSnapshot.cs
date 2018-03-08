@@ -22,7 +22,7 @@ namespace NethereumApp.Migrations
 
             modelBuilder.Entity("NethereumApp.Domain.EthereumContractInfo", b =>
                 {
-                    b.Property<Guid>("Id")
+                    b.Property<int>("Id")
                         .ValueGeneratedOnAdd();
 
                     b.Property<string>("Abi");

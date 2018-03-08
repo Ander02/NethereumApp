@@ -1,5 +1,6 @@
 ﻿using FluentValidation;
 using MediatR;
+using Microsoft.EntityFrameworkCore;
 using NethereumApp.Infraestructure;
 using NethereumApp.Services;
 using System;
@@ -13,7 +14,7 @@ namespace NethereumApp.Features.Contract
     {
         public class Command : IRequest<Result>
         {
-            public Guid Id { get; set; }
+            public int Id { get; set; }
             public string Abi { get; set; }
             public string ByteCode { get; set; }
             public int Gas { get; set; }
@@ -45,7 +46,7 @@ namespace NethereumApp.Features.Contract
 
             protected override async Task<Result> HandleCore(Command command)
             {
-                var contractInfo = db.EthereumContractInfo.Where(e => e.Id.Equals(command.Id)).FirstOrDefault();
+                var contractInfo = await db.EthereumContractInfo.Where(e => e.Id.Equals(command.Id)).FirstOrDefaultAsync();
 
                 if (contractInfo != null) throw new Exception("Contract alread exists");
 
@@ -74,6 +75,8 @@ namespace NethereumApp.Features.Contract
                 }
                 catch (Exception e)
                 {
+                    Console.WriteLine(e.ToString());
+
                     return new Result()
                     {
                         Released = false

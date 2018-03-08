@@ -17,6 +17,7 @@ namespace NethereumApp.Infraestructure
         protected override void OnModelCreating(ModelBuilder m)
         {
             m.Entity<EthereumContractInfo>().ToTable(nameof(EthereumContractInfo));
+            m.Entity<EthereumContractInfo>().HasKey(e => e.Id);
         }
     }
 }

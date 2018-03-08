@@ -11,8 +11,8 @@ using System;
 namespace NethereumApp.Migrations
 {
     [DbContext(typeof(Db))]
-    [Migration("20180306135947_initialMigration")]
-    partial class initialMigration
+    [Migration("20180307161408_godMigration")]
+    partial class godMigration
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -23,7 +23,7 @@ namespace NethereumApp.Migrations
 
             modelBuilder.Entity("NethereumApp.Domain.EthereumContractInfo", b =>
                 {
-                    b.Property<Guid>("Id")
+                    b.Property<int>("Id")
                         .ValueGeneratedOnAdd();
 
                     b.Property<string>("Abi");

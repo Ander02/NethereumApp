@@ -7,7 +7,7 @@ namespace NethereumApp.Domain
 {
     public class EthereumContractInfo
     {
-        public Guid Id { get; set; }
+        public int Id { get; set; }
         public string Abi { get; set; }
         public string ByteCode { get; set; }
         public string TransactionHash { get; set; }

@@ -14,7 +14,7 @@ namespace NethereumApp.Features.Contract
     {
         public class Query : IRequest<Result>
         {
-            public Guid Id { get; set; }
+            public int Id { get; set; }
         }
 
         public class CommandValidator : AbstractValidator<Query>
