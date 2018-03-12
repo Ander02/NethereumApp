@@ -37,8 +37,7 @@ namespace NethereumApp.Services
         public async Task<decimal> GetBalance(string address)
         {
             var balance = await this.web3.Eth.GetBalance.SendRequestAsync(address);
-            var r = Web3.Convert.FromWei(balance.Value, 18);
-            return r;
+            return Web3.Convert.FromWei(balance.Value, 18);
         }
 
         public async Task<bool> UnlockAccount(int seconds)
@@ -55,6 +54,11 @@ namespace NethereumApp.Services
         public async Task<TransactionReceipt> GetTransactionReceipt(string transactionHash)
         {
             return await this.web3.Eth.Transactions.GetTransactionReceipt.SendRequestAsync(transactionHash);
+        }
+
+        public async Task<HexBigInteger> EstimateGas(string abi, string function, string senderAddress, int value)
+        {
+            return await this.GetContract(abi).GetFunction(function).EstimateGasAsync(this.AccountAddress, null, null, senderAddress, value);
         }
 
         public Contract GetContract(string abi)
